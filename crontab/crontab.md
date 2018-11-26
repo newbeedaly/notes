@@ -1,4 +1,4 @@
-一、crontab 安装
+一、crontab 安装(不知疲倦的定时任务列表)
 
 检查Cronta工具是否安装：crontab -l/crontab -help
 检查crond服务是否启动：service crond status
@@ -18,7 +18,15 @@ ubuntu安装cron
 
 编辑crontab：crontab -e
 
-输入命令：* * * * * date >> /app/tmp/crontab.log
+输入命令：
+
+	* * * * * date >> /app/tmp/crontab.log
+	* * * * * sh /app/shell/crontab.sh
+
+查看文件：
+
+	cat /var/spool/cron/user  查看文件
+	cat /etc/crontab          查看配置文件
 
 
 附录：
