@@ -188,6 +188,121 @@
 
 # 4、es
 
-	
+	# 1介绍
+	ElasticSearch是一个基于lucence的搜索服务器，它提供了一个分布式多用户能力的全文搜索引擎，基于restful web接口。
+	优点:
+		速度快，近实时查询，最迟1秒
+		索引和检索的数据量大，支持TB级数据
+		高扩展、高可用
+	概括:基于Restful标准的高扩展高可用的实时数据分析的全文搜索服务器
+		跟solr一样可以使用文档来存储数据
 
+	es的基本概念
+		
+		关系数据库  		es
+		数据库DB			索引Index
+		表Table			类型Type
+		数据行Row		文档Document
+		数据列Column		字段Field
+		表结构Schema		映射Mapping
+
+	接近实时:最少延迟1秒
+
+	ES结构图和架构
+
+	# 2安装
+
+	# 下载
+	cd /app/elasticsearch
+	wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.3.tar.gz
+	wget https://artifacts.elastic.co/downloads/kibana/kibana-6.5.3-linux-x86_64.tar.gz
+	wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.3.tar.gz
+
+	# 解压
+	tar -zxvf elasticsearch-6.5.3.tar.gz 
+
+	vim elasticsearch-6.5.3/config/elasticsearch.yml 
+
+		network.host: 192.168.0.1 -- > 0.0.0.0(127.0.0.1)
+
+	vim /etc/sysctl.conf // 进程拥有的虚拟内存数据
+		添加内容:
+		vm.max_map_count=655360
+
+	sysctl -p //生效
+	
+	vim /etc/security/limits.conf // 允许打开的最大文件描述符数量
+		
+		添加
+		esuser soft nofille 65535
+		esuser hard nofille 65535
+		esuser soft nproc 4096
+		esuser hard nproc 4096
+
+	vim /etc/security/limits.d/20-nproc.conf
+
+		将 * 改为 ecuser
+		esuser soft nproc 4096
+
+	# 创建用户和组
+			groupadd esgroup
+			useradd esuser -g esgroup -p 111111
+
+	# 更改elastic文件夹及内部文件的所属用户和组
+		chown -R esuser:esgroup /app/elasticsearch/elasticsearch-6.5.3
+
+	# 切换esuser用户
+
+		su esuser
+		   111111
+
+	# 启动
+		vim /app/elasticsearch/elasticsearch-6.5.3/config/jvm.options
+				修改如下内容（默认为1G）
+				-Xms256m
+				-Xmx256m
+
+		后台启动
+		/app/elasticsearch/elasticsearch-6.5.3/bin/elasticsearch -d
+		可以在logs文件看下elasticsearch.log文件
+
+
+	# 上面步骤安装三台后，下面配置集群
+
+
+		修改elasticsearch.yml配置集群,可以直接在文件后添加以下内容
+			
+			# 集群名称要唯一
+			cluster.name: newbeedaly-es
+			# 集群节点不同（每台机器都要改）
+			node.name: node-xx
+			# 设置master和data节点
+			node.master: true
+			node.data: true
+			# 节点将绑定到主机名或ip地址，我们设置成0.0.0.0为当前主机，允许ip映射访问
+			network.host: 0.0.0.0
+			# http访问端口
+			http.port:9200
+			# tcp访问端口
+			transport.tcp.port:9300
+			# 自动发现的路由节点
+			discovery.zen.ping.unicast.hosts:["192.168.0.1:9300","192.168.0.1:9300","192.168.0.1:9300"]
+			# 集群中最小主节点数，防止脑裂
+			discovery.zen.mininum_master_nodes:2
+			# head 跨域访问
+			http.cors.enabled: true
+			http.cors.allow-origin:"*"
+			
+
+
+		jps 查看进程
+		kill -9 pid 关闭es进程
+
+		使用esuser用户启动集群，查看日志
+
+		检查是否正确启动命令
+		curl -i -XGET -H 'Content-Type: application/json' 'http://192.168.10.135:9200/_cat/health?v'
+	
+		
+	
 	
