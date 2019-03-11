@@ -1,6 +1,9 @@
 
 #git命令使用
 
+	#准备
+		mkdir projectName
+		git init
 	#下载
 	git clone url 拉取代码
 	git pull 更新
