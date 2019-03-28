@@ -514,9 +514,104 @@
 
 ### 9.多线程与并发原理
 
+		互斥锁:同一时间只允许一个线程持有某个对象锁，原子性。
+			
+		锁的分类:对象锁和类锁。
+			对象锁：同步代码块 synchrozide(this/new Class){}
+				   同步非静态方法 synchronized method
+			类锁:同步代码块 synchronized(类.class){}
+				同步静态方法 synchronized static method
+
+		synchronized底层实现原理
+	
+			    Java 虚拟机中的同步(Synchronization)基于进入和退出管程(Monitor)对象实现， 无论是显式同步(有明确的 monitorenter 和 monitorexit 指令,即同步代码块)还是隐式同步都是如此。
+			在 Java 语言中，同步用的最多的地方可能是被 synchronized 修饰的同步方法。
+			同步方法 并不是由 monitorenter 和 monitorexit 指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的 ACC_SYNCHRONIZED 标志来隐式实现的。
+
+
 ### 10.java常用类库及技巧
 
+		String,StringBuffer,StringBuilder的区别
+		
+		数据结构:
+			数组和链表的区别，链表操作，二叉树的遍历方式递归和非递归实现，红黑树的旋转,队列和栈的应用。
+
+		算法
+			内部排序:递归，交换（冒泡、快排）,选择排序，插入排序
+			外部排序:有限的空间处理较大的数据集。
+
+			快排、堆排序是不稳定。
+	
+		异常
+	
+			Throwable接口 : Error Exception.
+				Error:系统错误,编译器不做检查，程序无法处理。找不到Class定义的异常，内存溢出溢出，栈溢出异常。
+				Exception:程序可以处理的异常。
+	
+			RuntimeException:运行时异常。不可预知的，空指针异常,类型强制转换异常，下标越界，数字格式异常，传递非法参数
+			CheckedException:可检查异常。找不到Class异常，IO异常。
+			
+			注:try catch性能不如if else高。
+
+
+		java集合框架
+
+			Collection:List,Set,Queue
+
+		![集合图片](https://i.imgur.com/FHPCXiS.png)
+
+			List
+				特点:有序，可重复，可通过索引值操作元素
+				分类:底层是数组，查询快，增删慢.ArrayList:线程不安全,效率高;Vector:线程安全,效率低。
+				     底层是链表,查询慢，增删快,LinkedList:线程不安全效率高
+
+			Set:
+				特点:无序(存储和取出的顺序),元素唯一
+				分类：底层是哈希表,HashSet：保证元素唯一。
+					 底层是二叉树,TreeSet:保证元素排序：1.自然排序，让对象所属的类去实现comparable接口，无参构造。2.比较接口comparator,带参构造。
+
+			hashmap 数组+链表 1.8+红黑色。 O(1)~O(n)-->O(1)~O(logn)
+
+		
+
+			
+		
+
 ### 11.java框架-spring
+
+		spring大家族:spring-core,spring-data,spring-security,spring-boot,spring-cloud...
+		
+		IOC原理:
+			即“控制反转”，不是什么技术，而是一种设计思想。在Java开发中，Ioc意味着将你设计好的对象交给容器控制，而不是传统的在你的对象内部直接控制。
+
+			依赖注入含义:把底层类作为参数传递给上层类，实现上层对下层的控制。
+			非依赖注入:new Object().
+
+		springBean的作用域
+			singleton,prototype,request,session,globlaSession.
+
+		bean的生命周期容器管理：主要是创建和销毁。
+
+		@Resource与@Autowired的区别
+
+		
+		spring-AOP:面向切面编程。
+		关注点分离:不同的问题交给不同的部分去解决。
+		业务功能代码与日志代码分离。
+
+		AOP
+		切面
+		切入点
+		通知:before前置,After最终,AfterReturning后置,AfterThrowing异常,Around环绕通知
+		
+
+		AOP原理
+
+			JDKProxy和cglib 接口-代理类-真实类
+
+		string事务
+			隔离级别，事务传播
+
 
 ### 12.总结和展望
 
