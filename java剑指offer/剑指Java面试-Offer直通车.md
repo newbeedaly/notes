@@ -531,7 +531,16 @@
 			在 Java 语言中，同步用的最多的地方可能是被 synchronized 修饰的同步方法。
 			同步方法 并不是由 monitorenter 和 monitorexit 指令来实现同步的，而是由方法调用指令读取运行时常量池中方法的 ACC_SYNCHRONIZED 标志来隐式实现的。
 
-
+		线程池
+			并发的请求比较多，频繁的创建和销毁线程时间较多，线程池可以重复利用线程。
+			Executors java线程池 ThreadExecutors
+			Thread t = new Thread();
+			Executors.execute(t);
+	
+			线程池状态:running,shutdown,stop,tidying,terminated
+			线程池大小:cpu密集型:线程数=cpu核数+1
+					  io密集型:线程数=cpu核数*(1+平均等待时间/平均工作时间)
+			
 ### 10.java常用类库及技巧
 
 		String,StringBuffer,StringBuilder的区别
