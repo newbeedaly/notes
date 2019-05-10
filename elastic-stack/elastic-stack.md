@@ -187,18 +187,54 @@
 
 	为什么是使用Elastic-stack?
 
-		搭建快，数据实时，扩展方便。
+		搭建快，数据实时(排除n+1天时间限制)，扩展方便。
 
 	Elastic-stack组成:
 
 		Kibana:数据探索与可视化分析
 		Elasticsearch:数据存储、查询与分析 核心搜索引擎
-		Beats&Logstash:日志收集与处理 ETL:支持多样数据格式
+		Beats&Logstash:日志收集与处理 ETL工具,支持多样数据格式
 
 	完备的数据分析工具集合
+
 		搜索引擎
 		日志分析
 		指标分析
+
+	es篇
+
+		基本术语:Index,document,type,field,node,cluster
+		restAPi:get post put delete请求方式
+
+		使用kibana-devTools练习restApi,如果index和type不存在，es自动创建index type.
+
+		GET /test_index/doc/id(_search) # _search查询所有文档  id指定id查询
+		POST /test_index/doc/1  # 指定id为1,会自动生成
+		{
+			"username":"newbeedaly",
+			"age":20
+		}
+		
+		POST _bulk批量操作文档
+		POST _mget批量查询文档
+
+		正排索引:书与目录,文档id与单词内容的关联
+		倒排索引:单词内容与文档id的关联
+			单词词典(term doctionary)：使用b+tree,插入查询性能非常高，重复利用磁盘内存。
+			倒排列表(posting list) 记录单词对应的文档集合，由倒排索引项组成。
+			倒排索引是按字段Field倒排。
+
+		Analyze分词:将文本转换为一系列单词的过程。分词器:过滤，分词，分词后数据处理(如大小写)。
+		AnalyzeApi:指定分词器(测试分词指定字段的分词器), POST _analyze{"analyzer":"standand","text","hello world!"};POST test_index/_analyze{"filed":"username","text","hello world!"};也可以自定义分词器
+
+
+	logbatch/beats篇
+		
+
+	kibana篇
+		
+		
+
 
 	
 
